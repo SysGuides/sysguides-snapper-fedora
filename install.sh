@@ -20,6 +20,7 @@
 
 set -e
 
+# Get absolute path of this script (works regardless of current directory)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Prevent running as root
