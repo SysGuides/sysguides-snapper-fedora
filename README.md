@@ -22,13 +22,46 @@ Automated Snapper + grub-btrfs setup for Fedora, including a WAL fix for libdnf5
 
 ---
 
+## 📺 Full Setup Guide
+
+Follow the complete setup:
+
+- 🌐 Article  
+  👉 https://sysguides.com  
+- 📺 YouTube  
+  👉 https://youtube.com/@SysGuides  
+
+---
+
 ## ⚠️ Compatibility
 
 - Tested on:
   - Fedora Workstation (GNOME)
   - Fedora KDE Spin
 
-> Other Fedora spins may work, but are not explicitly tested.
+### ✅ Recommended Setup
+
+Works best with:
+
+- 🌐 SysGuides Fedora Btrfs + Snapper installation guide  
+  👉 https://sysguides.com  
+- 📺 YouTube walkthrough  
+  👉 https://youtube.com/@SysGuides  
+
+✔ Full compatibility (including `/boot` rollback)
+
+---
+
+> ⚠️ **Note on default Fedora installations**
+>
+> This setup also works on the default Fedora Btrfs layout.  
+> However:
+>
+> - `/boot` is not on Btrfs  
+> - Kernel rollback is **not fully supported**  
+> - Snapshots restore the root filesystem, but not `/boot`
+>
+> For full rollback capability, follow the SysGuides setup.
 
 ---
 
