@@ -20,6 +20,8 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Prevent running as root
 if [[ $EUID -eq 0 ]]; then
     echo "Please run this script as a normal user:"
@@ -92,14 +94,14 @@ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 echo "[5/6] Installing Snapper integration scripts..."
 
 # Install scripts
-sudo install -m 755 scripts/* /usr/local/bin/
+sudo install -m 755 "$SCRIPT_DIR"/scripts/* /usr/local/bin/
 
 # Restore SELinux context
 sudo restorecon -v /usr/local/bin/snapper-*.sh
 
 # Install DNF5 actions file
 sudo mkdir -p /etc/dnf/libdnf5-plugins/actions.d/
-sudo install -m 644 config/snapper.actions /etc/dnf/libdnf5-plugins/actions.d/
+sudo install -m 644 "$SCRIPT_DIR"/config/snapper.actions /etc/dnf/libdnf5-plugins/actions.d/
 
 echo "[6/6] Enabling Snapper timers..."
 
