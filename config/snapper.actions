@@ -1,0 +1,26 @@
+# snapper.actions
+# ----------------
+# Snapper integration with libdnf5 (DNF5 transactions)
+#
+# This file defines hooks that:
+# - Create PRE snapshots before transactions
+# - Capture GUI package details
+# - Create POST snapshots after transactions
+# - Apply WAL checkpoint fix for consistency
+#
+# Project: sysguides-snapper-fedora
+# Author: Madhu Desai (SysGuides)
+# Website: https://sysguides.com
+# GitHub: https://github.com/SysGuides/sysguides-snapper-fedora
+
+# Create PRE snapshot
+pre_transaction::::/usr/local/bin/snapper-pre.sh ${pid}
+
+# Capture GUI package info (incoming packages)
+pre_transaction:*:in::/usr/local/bin/snapper-gui-pkg.sh ${pid} ${pkg.action} ${pkg.name}
+
+# Capture GUI package info (outgoing packages)
+pre_transaction:*:out::/usr/local/bin/snapper-gui-pkg.sh ${pid} ${pkg.action} ${pkg.name}
+
+# Create POST snapshot (with WAL fix)
+post_transaction::::/usr/local/bin/snapper-post.sh ${pid}
