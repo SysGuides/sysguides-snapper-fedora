@@ -21,8 +21,6 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ls -l "$SCRIPT_DIR/scripts/"
-sleep 5
 
 # Prevent running as root
 if [[ $EUID -eq 0 ]]; then
