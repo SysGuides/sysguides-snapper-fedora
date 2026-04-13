@@ -25,6 +25,14 @@ STATE_DIR="/run/snapper-actions"
 mkdir -p "$STATE_DIR"
 chmod 700 "$STATE_DIR"
 
+# On a fresh setup, DNF5 may fail with "filesystem error: cannot copy: packages.toml"
+# if this directory is missing, leaving an orphaned PRE snapshot with no POST.
+# This block ensures the directory exists before the transaction proceeds.
+if [[ ! -d /usr/lib/sysimage/libdnf5 ]]; then
+    mkdir -p /usr/lib/sysimage/libdnf5
+    restorecon -q /usr/lib/sysimage/libdnf5 2>/dev/null || true
+fi
+
 # Get transaction description (GUI or CLI command)
 desc=$(/usr/local/bin/snapper-desc.sh "$PID")
 
