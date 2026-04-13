@@ -21,36 +21,27 @@
 # Website: https://sysguides.com
 # GitHub: https://github.com/SysGuides/sysguides-snapper-fedora
 
-DB="/usr/lib/sysimage/rpm/rpmdb.sqlite"
-
-# Try up to 10 times to checkpoint WAL
-for i in {1..10}; do
-    python3 - <<EOF
+python3 - <<'EOF'
 import sqlite3
+import time
 import sys
 
-try:
-    conn = sqlite3.connect("$DB", timeout=3)
-    conn.execute("PRAGMA busy_timeout=3000")
-    result = conn.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
-    conn.close()
+DB = "/usr/lib/sysimage/rpm/rpmdb.sqlite"
 
-    # result[1] = number of remaining frames in WAL
-    if result and result[1] == 0:
-        sys.exit(0)
-except:
-    pass
-
-sys.exit(1)
-EOF
-
-    # If checkpoint succeeded, exit
-    if [ $? -eq 0 ]; then
-        exit 0
-    fi
-
-    sleep 1
-done
+# Try up to 10 times to checkpoint WAL (single process, no respawn overhead)
+for i in range(10):
+    try:
+        conn = sqlite3.connect(DB, timeout=3)
+        conn.execute("PRAGMA busy_timeout=3000")
+        result = conn.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
+        conn.close()
+        # result[1] = number of remaining frames in WAL (0 = fully flushed)
+        if result and result[1] == 0:
+            sys.exit(0)
+    except sqlite3.OperationalError:
+        pass
+    time.sleep(0.5)
 
 # Best-effort fallback
-exit 1
+sys.exit(1)
+EOF
