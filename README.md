@@ -32,11 +32,11 @@ Automated Snapper + grub-btrfs setup for Fedora, including a WAL fix for libdnf5
 
 Works best with:
 
-- 🌐 SysGuides Fedora Btrfs + Snapper installation guide  
-  👉 Will be published soon
+- 🌐 How to Setup Fedora 44 with Btrfs Snapshot and Rollback Support
+  👉 https://sysguides.com/fedora-44-with-btrfs-snapshot-and-rollback-support
 
-- 📺 YouTube walkthrough  
-  👉 Will be published soon
+- 📺 Never Break Fedora 44 Again! Complete Snapper & Rollback Guide (YouTube walkthrough)
+  👉 https://youtu.be/d-CafjZf2M4
 
 ✔ Full compatibility (including `/boot` rollback)
 
